@@ -7,8 +7,9 @@ use App\Models\Project;
 use Illuminate\Http\JsonResponse;
 
 /**
- * API JSON somente leitura para integrações (n8n, relatórios, Claude).
- * Protegida por X-Api-Key (ver VIX_API_KEY no .env).
+ * API JSON de leitura para integrações (n8n, relatórios, Claude).
+ * Protegida por X-Api-Key (VIX_API_KEY ou VIX_API_WRITE_KEY). A escrita fica
+ * em ProjectWriteApiController.
  */
 class ProjectApiController extends Controller
 {
@@ -47,7 +48,7 @@ class ProjectApiController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    private function summary(Project $p): array
+    protected function summary(Project $p): array
     {
         return [
             'id' => $p->id,

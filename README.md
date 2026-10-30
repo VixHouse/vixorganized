@@ -75,6 +75,20 @@ curl -H "X-Api-Key: SUA_CHAVE" https://seu-host/api/projetos
 
 Retorna rank, status, fase atual, progresso e prazo de cada projeto. O endpoint por slug retorna também as fases e os passos com quem marcou e quando.
 
+### Escrita (AlfaMatriz)
+
+Defina `VIX_API_WRITE_KEY` (outra string longa, diferente da de leitura). Vazia, a escrita fica desligada. Ela também serve para ler. Só vale no header `X-Api-Key`, nunca em querystring.
+
+| Método e caminho | Corpo | O que faz |
+|---|---|---|
+| `POST /api/projetos` | `name`, `description?`, `due_date?`, `status?`, `use_template?` (padrão: sim) | Cria o projeto no fim da fila, com o pipeline padrão |
+| `POST /api/projetos/{slug}/status` | `status` | Muda o status |
+| `POST /api/projetos/{slug}/passos` | `title`, `notes?`, `phase_id?` | Lança uma demanda: passo novo na fase pedida ou na fase atual; fase concluída reabre |
+| `POST /api/projetos/{slug}/passos/{id}/check` | `done` (true/false) | Marca ou desmarca; repetir não duplica. As fases e o projeto fecham sozinhos como na tela |
+| `POST /api/projetos/{slug}/passos/{id}/registros` | `body` | Registro (comentário) no passo |
+
+Headers opcionais: `X-Vix-Autor` (e-mail de um usuário daqui, que vira o autor) e `X-Vix-Origem` (aparece no histórico como "(via AlfaMatriz)"). As respostas trazem o projeto atualizado no mesmo formato do `GET /api/projetos/{slug}`. Limite: 60 pedidos por minuto.
+
 ## Estrutura
 
 ```

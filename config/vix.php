@@ -7,6 +7,10 @@ return [
     // Chave para a API JSON (n8n, integrações). Vazio = API desligada.
     'api_key' => env('VIX_API_KEY'),
 
+    // Chave da API de escrita (AlfaMatriz e outras integrações que lançam demandas).
+    // Vazio = escrita desligada. Também vale para a leitura.
+    'api_write_key' => env('VIX_API_WRITE_KEY'),
+
     'statuses' => [
         'aguardando'   => ['label' => 'Aguardando',   'color' => 'slate'],
         'em_andamento' => ['label' => 'Em andamento', 'color' => 'blue'],
